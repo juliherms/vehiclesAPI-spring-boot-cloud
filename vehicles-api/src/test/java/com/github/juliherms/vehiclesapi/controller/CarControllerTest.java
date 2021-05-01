@@ -8,6 +8,7 @@ import com.github.juliherms.vehiclesapi.model.Location;
 import com.github.juliherms.vehiclesapi.model.Manufacturer;
 import com.github.juliherms.vehiclesapi.model.enums.Condition;
 import com.github.juliherms.vehiclesapi.service.CarService;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -84,6 +85,34 @@ public class CarControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
+    }
+
+    /**
+     * Method responsible to test list of cars
+     * @throws Exception
+     */
+    @Test
+    public void testListCarsSuccess() throws Exception {
+
+        //step 1 - model car for validation
+        Car car = getCar();
+        //step 2 - call car resources
+        mvc.perform(get("/cars")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.carList", hasSize(1))) //check lenght
+                .andExpect(jsonPath("$._embedded.carList[0].id").value(1)); //check value
+    }
+
+    @Test
+    public void testDeleteCarSuccess() throws Exception {
+
+        mvc.perform(
+                delete(new URI("/cars/1"))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNoContent());
     }
 
     /**

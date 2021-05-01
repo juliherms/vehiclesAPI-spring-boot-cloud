@@ -95,4 +95,10 @@ public class CarController {
     public Resource<Car> get(@PathVariable Long id) {
         return assembler.toResource(service.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
