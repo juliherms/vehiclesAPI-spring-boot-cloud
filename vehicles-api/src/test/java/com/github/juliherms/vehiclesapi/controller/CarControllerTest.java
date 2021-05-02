@@ -78,6 +78,9 @@ public class CarControllerTest {
 
         // step 1 - get car model
         Car car = getCar();
+
+        System.out.println(json.write(car).getJson());
+
         // step 2 - call resource endpoints
         mvc.perform(
                 post(new URI("/cars"))
