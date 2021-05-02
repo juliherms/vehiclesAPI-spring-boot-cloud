@@ -11,8 +11,8 @@ import com.github.juliherms.vehiclesapi.service.CarService;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.Before;
@@ -30,7 +30,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.xml.soap.Detail;
 import java.net.URI;
 import java.util.Collections;
 
@@ -88,6 +87,23 @@ public class CarControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
+    }
+
+    /**
+     * Method responsible to teste update car
+     * @throws Exception
+     */
+    @Test
+    public void testUpdateCarsSuccess() throws Exception {
+
+        Car car = getCar();
+        car.getDetails().setModel("Cronos Precision");
+
+        mvc.perform(
+                put(new URI("/cars/1"))
+                        .content(json.write(car).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
     }
 
     /**
