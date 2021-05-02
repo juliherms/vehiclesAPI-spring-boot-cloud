@@ -15,6 +15,10 @@ should be running at once for full operation. Further instructions are available
 
 The project requires the use of Maven and Spring Boot, along with Java v11.
 
+Archtecture
+
+<img src="img/structure.JPG">
+
 ```sh
 curl --request POST \
   --url http://localhost:8080/cars \
